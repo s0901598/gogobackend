@@ -1,5 +1,11 @@
 import { NgModule } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzFormModule } from 'ng-zorro-antd/form';
 import { BrowserModule } from '@angular/platform-browser';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -11,6 +17,7 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { provideNzI18n } from 'ng-zorro-antd/i18n';
+import { ReactiveFormsModule } from '@angular/forms';
 import { zh_TW } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
@@ -19,6 +26,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideHttpClient } from '@angular/common/http';
 
 registerLocaleData(zh);
+
 
 @NgModule({
   declarations: [
@@ -35,7 +43,14 @@ registerLocaleData(zh);
     NzBreadCrumbModule,
     NzIconModule,
     NzMenuModule,
-    NzImageModule
+    NzImageModule,
+    NzModalModule,
+    ReactiveFormsModule,
+    NzFormModule,
+    NzSwitchModule,
+    NzTableModule,
+    NzDividerModule,
+    
   ],
   providers: [
     provideNzI18n(zh_TW),

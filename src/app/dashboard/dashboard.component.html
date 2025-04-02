@@ -57,31 +57,114 @@
                 <div class="inner-content">
                 <!-- 根據選中的 nav 動態顯示內容 -->
                     <div *ngIf="selectedNav === 'nav1'">
-                        <div class="productbox">
-                            <div class="product_pic">
-                                <img
-                                [nzDisablePreview]="true"
-                                nz-image
-                                width="200px"
-                                height="200px"
-                                src="/src/assets/bgpic.jpg"
-                                alt=""
-                              />
-                            </div>
-                            <div class="productID">
-                                hweiuhoewhoewhiowe
-                            </div>
-                            <div class="product_name">
-                                ewhiewhoew
-                            </div>
-                            <div class="product_price">
-                                599
-                            </div>
-                            <div class="product_amount">
-                                30
-                            </div>
-                        </div>
+                        <button nz-button nzType="primary" [class.active]="clickbtn === '+btn'" (click)="clicknewbtn('+btn')">+新增</button>
                     </div>
+                    <div class="send-request">
+                        <button
+                          nz-button
+                          nzType="primary"
+                          [disabled]="setOfCheckedId.size === 0"
+                          [nzLoading]="loading"
+                          (click)="sendRequest()"
+                          nzDanger
+                        >
+                          批量刪除
+                        </button>
+                        <span>Selected {{ setOfCheckedId.size }} items</span>
+                      </div>
+                      <nz-table
+                        #rowSelectionTable
+                        nzShowPagination
+                        nzShowSizeChanger
+                        [nzData]="listOfData"
+                        (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+                      >
+                        <thead>
+                          <tr>
+                            <th
+                              [nzChecked]="checked"
+                              [nzIndeterminate]="indeterminate"
+                              nzLabel="Select all"
+                              (nzCheckedChange)="onAllChecked($event)"
+                            ></th>
+                            <th>ID</th>
+                            <th>商品名稱</th>
+                            <th>商品價格</th>
+                            <th>圖片</th>
+                            <th>狀態</th>
+                            <th
+                                nzSortOrder="descend"
+                                nzSortKey="createTime"
+                                (nzSortOrderChange)="onSortChange({ key: 'createdAt', value: $event })"
+                            >
+                                創建時間
+                            </th>
+                            <th>操作</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @for (data of rowSelectionTable.data; track data) {
+                            <tr>
+                              <td
+                                [nzChecked]="setOfCheckedId.has(data.id)"
+                                [nzDisabled]="data.disabled"
+                                [nzLabel]="data.pdname"
+                                (nzCheckedChange)="onItemChecked(data.id, $event)"
+                              ></td>
+                              <td>{{data.id}}</td>
+                              <td>{{ data.pdname }}</td>
+                              <td>{{ data.pdprice}}</td>
+                              <td>{{ data.picurl }}</td>
+                              <td><nz-switch [ngModel]="data.switchstatus" [ngModelOptions]="{standalone: true}" (ngModelChange)="changeliststatus(data.id, $event)" ></nz-switch></td>
+                              <td>{{ data.createTime | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+                              <td>
+                                <button nz-button nzType="link" (click)="deleteItem(data.id)">刪除</button>
+                              </td>
+                            </tr>
+                          }
+                        </tbody>
+                      </nz-table>
+                    
+                    
+                    
+                    <!-- 彈窗內容模板 -->
+                    <ng-template #modalContent>
+                        <form nz-form [formGroup]="form" class="vertical-form" >
+                            <nz-form-item>
+                                <div class="item">
+                                    <div class="item_title">商品名稱:</div>
+                                    <div class="item_inpput">
+                                       <input type="text" nz-input formControlName="name" placeholder="請輸入商品名稱" />  
+                                    </div>
+                                    <div *ngIf="form.get('name')?.dirty && form.get('name')?.errors" class="error-message">
+                                        請輸入商品名稱
+                                    </div>                                    
+                                </div>
+                              </nz-form-item>
+                    
+                            <nz-form-item>
+                                <div class="item">
+                                    <div class="item_title">商品價格:</div>
+                                    <div class="item_inpput" >
+                                        NT
+                                        <input type="text" formControlName="price" placeholder="請輸入價格" />  
+                                     </div>
+                                     <div *ngIf="form.get('price')?.dirty && form.get('price')?.errors" class="error-message">
+                                        請輸入有效的商品價格
+                                    </div>
+                                     
+                                </div>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <div class="item">
+                                    <div class="item_title">商品狀態</div>
+                                    <nz-switch formControlName="switchstatus"  (click)="statusclick()"></nz-switch>
+                                </div>
+                            </nz-form-item>
+                        </form>   
+                      </ng-template>
+
                    
                     <div *ngIf="selectedNav === 'nav2'">
                     <h2>Content for Nav 2</h2>
