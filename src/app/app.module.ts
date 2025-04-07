@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
@@ -50,6 +51,8 @@ registerLocaleData(zh);
     NzSwitchModule,
     NzTableModule,
     NzDividerModule,
+    NzUploadModule,
+    NzTagModule,
     
   ],
   providers: [

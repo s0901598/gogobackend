@@ -91,11 +91,12 @@
                             <th>商品名稱</th>
                             <th>商品價格</th>
                             <th>圖片</th>
+                            <th>項目</th>
                             <th>狀態</th>
                             <th
-                                nzSortOrder="descend"
+                                nzSortOrder="sortValue as 'ascend' | 'descend' | null"
                                 nzSortKey="createTime"
-                                (nzSortOrderChange)="onSortChange({ key: 'createdAt', value: $event })"
+                                (nzSortOrderChange)="onSortChange({ key: 'createTime', value: $event })"
                             >
                                 創建時間
                             </th>
@@ -114,7 +115,18 @@
                               <td>{{data.id}}</td>
                               <td>{{ data.pdname }}</td>
                               <td>{{ data.pdprice}}</td>
-                              <td>{{ data.picurl }}</td>
+                              <td>
+                                <img
+                                *ngIf="data.picurl && data.picurl !== 'default-pic-url'"
+                                [src]="data.picurl"
+                                style="width: 50px; height: 50px; cursor: pointer;"
+                                (click)="previewImage(data.picurl)"
+                                />
+                                <span *ngIf="!data.picurl || data.picurl === 'default-pic-url'">無圖片</span>
+                              </td>
+                              <nz-tag *ngFor="let label of data.labels" [ngClass]="getTagClass(label)">
+                                {{ label }}
+                              </nz-tag>
                               <td><nz-switch [ngModel]="data.switchstatus" [ngModelOptions]="{standalone: true}" (ngModelChange)="changeliststatus(data.id, $event)" ></nz-switch></td>
                               <td>{{ data.createTime | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
                               <td>
@@ -132,7 +144,7 @@
                         <form nz-form [formGroup]="form" class="vertical-form" >
                             <nz-form-item>
                                 <div class="item">
-                                    <div class="item_title">商品名稱:</div>
+                                    <div class="item_title">商品名稱：</div>
                                     <div class="item_inpput">
                                        <input type="text" nz-input formControlName="name" placeholder="請輸入商品名稱" />  
                                     </div>
@@ -144,11 +156,11 @@
                     
                             <nz-form-item>
                                 <div class="item">
-                                    <div class="item_title">商品價格:</div>
-                                    <div class="item_inpput" >
-                                        NT
-                                        <input type="text" formControlName="price" placeholder="請輸入價格" />  
-                                     </div>
+                                    <div class="item_title">商品價格：</div>
+                                    <div class="item_inpput" >                           
+                                      <input type="text" formControlName="price" placeholder="請輸入價格" />  
+                                        （元）
+                                      </div>
                                      <div *ngIf="form.get('price')?.dirty && form.get('price')?.errors" class="error-message">
                                         請輸入有效的商品價格
                                     </div>
@@ -157,10 +169,42 @@
                             </nz-form-item>
 
                             <nz-form-item>
-                                <div class="item">
-                                    <div class="item_title">商品狀態</div>
-                                    <nz-switch formControlName="switchstatus"  (click)="statusclick()"></nz-switch>
+                                <div class="item">                                  
+                                    <div class="item_title">商品狀態：</div>
+                                    <nz-switch   (click)="statusclick()"></nz-switch>
                                 </div>
+                            </nz-form-item>
+                            <nz-form-item>
+                              <div class="picupload">
+                                商品圖片：
+                                <nz-upload
+                                nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                                [nzFileList]="fileList"
+                                (nzChange)="handleChange($event)"
+                              >
+                                <button nz-button>
+                                  <nz-icon nzType="upload" />
+                                  Upload
+                                </button>
+                              </nz-upload>
+                              </div>
+                            </nz-form-item>
+                            <nz-form-item>
+                              <div class="pdlabel">
+                                <h4 style="margin-bottom: 16px">選擇標籤：</h4>
+                                <div>
+                                  @for (label of availableLabels; track label) {
+                                    <nz-tag
+                                      nzMode="checkable"
+                                      [nzChecked]="selectedLabels.includes(label)"
+                                      (nzCheckedChange)="checkChange(label, $event)"
+                                      [ngClass]="getTagClass(label)"                                       
+                                    >
+                                      {{ label }}
+                                    </nz-tag>
+                                  }
+                                </div>
+                              </div>
                             </nz-form-item>
                         </form>   
                       </ng-template>

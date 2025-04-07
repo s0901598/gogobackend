@@ -1,47 +1,174 @@
 .logo {
-    width: 120px;
-    height: 31px;
-    margin: 16px 30px 16px 0;
-    float: left;
-  }
+  width: 120px;
+  height: 31px;
+  margin: 16px 30px 16px 0;
+  float: left;
+}
 
-  .header-menu {
-    line-height: 64px;
-  }
+.header-menu {
+  line-height: 64px;
+}
 
-  .sider-menu {
-    height: 100%;
-    border-right: 0;
-  }
+.sider-menu {
+  height: 100%;
+  border-right: 0;
+}
 
-  .inner-layout {
-    padding: 0 24px 24px;
-  }
+.inner-layout {
+  padding: 0 24px 24px;
+}
 
-  nz-breadcrumb {
-    margin: 16px 0;
-  }
+nz-breadcrumb {
+  margin: 16px 0;
+}
 
-  nz-content {
-    background: #fff;
-    padding: 24px;
-    min-height: 280px;
-  }
-  .product_pic{
-    width: 300px;
-    height: 200px;
-  }
+nz-content {
+  background: #fff;
+  padding: 24px;
+  min-height: 280px;
+}
 
-  /* 彈窗表單欄位垂直顯示.component.css */
+.product_pic {
+  width: 300px;
+  height: 200px;
+}
+
+/* 彈窗表單欄位垂直顯示 */
 .vertical-form .ant-form-item {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 16px; /* 調整間距 */
-  }
-  .item{
-    display: flex;
-  }
-  .item_title{
-    margin-right: 10px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 16px; /* 調整間距 */
+}
+
+.item {
+  display: flex;
+}
+
+.item_title {
+  margin-right: 10px;
+}
+
+.error-message {
+  color: red;
+}
+
+.item_inpput > input {
+  border: 1px solid;
+  border-radius: 3px;
+}
+
+/* 確保圖片欄位的連結樣式 */
+nz-table td a {
+  color: #1890ff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+nz-table td a:hover {
+  color: #40a9ff;
+}
+
+.preview-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ant-tag {
+  margin-bottom: 8px;
+}
+
+/* 標籤基礎樣式（適用於彈窗和表格） */
+nz-tag {
+  margin-right: 8px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* 紅色標籤 - 未選中 */
+.tag-red {
+  border: 1px solid #ff4d4f; /* 紅框 */
+  background-color: #ffcccb; /* 淺紅底 */
+  color: #cf1322; /* 深紅字 */
+}
+
+/* 紅色標籤 - 選中 */
+.tag-red[nz-checked="true"] {
+  border: 1px solid #cf1322 !important; /* 深紅框 */
+  background-color: #cf1322 !important; /* 深紅底 */
+  color: white !important; /* 白色文字 */
+}
+
+/* 藍色標籤 - 未選中 */
+.tag-blue {
+  border: 1px solid #40a9ff; /* 藍框 */
+  background-color: #e6f7ff; /* 淺藍底 */
+  color: #096dd9; /* 深藍字 */
+}
+
+/* 藍色標籤 - 選中 */
+.tag-blue[nz-checked="true"] {
+  border: 1px solid #096dd9 !important; /* 深藍框 */
+  background-color: #096dd9 !important; /* 深藍底 */
+  color: white !important; /* 白色文字 */
+}
+
+/* 綠色標籤 - 未選中 */
+.tag-green {
+  border: 1px solid #73d13d; /* 綠框 */
+  background-color: #f6ffed; /* 淺綠底 */
+  color: #389e0d; /* 深綠字 */
+}
+
+/* 綠色標籤 - 選中 */
+.tag-green[nz-checked="true"] {
+  border: 1px solid #389e0d !important; /* 深綠框 */
+  background-color: #389e0d !important; /* 深綠底 */
+  color: white !important; /* 白色文字 */
+}
+
+/* 黃色標籤 - 未選中 */
+.tag-yellow {
+  border: 1px solid #ffec3d; /* 黃框 */
+  background-color: #fffbe6; /* 淺黃底 */
+  color: #d4b106; /* 深黃字 */
+}
+
+/* 黃色標籤 - 選中 */
+.tag-yellow[nz-checked="true"] {
+  border: 1px solid #d4b106 !important; /* 深黃框 */
+  background-color: #d4b106 !important; /* 深黃底 */
+  color: white !important; /* 白色文字 */
+}
+
+/* 紫色標籤 - 未選中 */
+.tag-purple {
+  border: 1px solid #9254de; /* 紫框 */
+  background-color: #f9f0ff; /* 淺紫底 */
+  color: #531dab; /* 深紫字 */
+}
+
+/* 紫色標籤 - 選中 */
+.tag-purple[nz-checked="true"] {
+  border: 1px solid #531dab !important; /* 深紫框 */
+  background-color: #531dab !important; /* 深紫底 */
+  color: white !important; /* 白色文字 */
+}
+
+/* 默認標籤 - 未選中 */
+.tag-default {
+  border: 1px solid #d9d9d9; /* 灰框 */
+  background-color: #f5f5f5; /* 淺灰底 */
+  color: #595959; /* 深灰字 */
+}
+
+/* 默認標籤 - 選中 */
+.tag-default[nz-checked="true"] {
+  border: 1px solid #8c8c8c !important; /* 深灰框 */
+  background-color: #8c8c8c !important; /* 深灰底 */
+  color: white !important; /* 白色文字 */
+}
