@@ -51,7 +51,7 @@ export class DashboardComponent {
     { text: 'Free wi-fi', icon: 'fa-wifi' },
     { text: 'Smoke-free', icon: 'fa-ban-smoking' },
     {text:'1 King +2 Queen',icon: 'fa-bed'},
-    {text:'Free Newspaper',icon:'fa-newsapaer'},
+    {text:'Free Newspaper',icon:'fa-newspaper'},
     {text:'Indoor corridor',icon:'fa-door-open'},
 
   ];
@@ -109,7 +109,7 @@ export class DashboardComponent {
     } else {
       console.log('執行else');
       this.listOfData = new Array(10).fill(0).map((_, index) => ({
-        id: index,
+        id: index+1,
         pdname: `Edward King ${index}`,
         pdprice: 80,
         picurl: `London, Park Lane no. ${index}`,
@@ -288,7 +288,7 @@ export class DashboardComponent {
   // 新增方法：生成唯一的 ID
   private generateUniqueId(): number {
     if (this.listOfData.length === 0) {
-      return 0; // 如果列表為空，從 0 開始
+      return 1; // 如果列表為空，從 0 開始
     }
     const maxId = Math.max(...this.listOfData.map(item => item.id));
     return maxId + 1; // 返回當前最大 ID 加 1
