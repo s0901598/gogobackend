@@ -1,0 +1,26 @@
+<div class="login-container">
+    <h2>登入</h2>
+    <form nz-form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-label [nzRequired]="true">用戶名</nz-form-label>
+        <nz-form-control nzErrorTip="請輸入至少 3 個字符的用戶名">
+          <input nz-input formControlName="username" placeholder="請輸入用戶名" />
+        </nz-form-control>
+      </nz-form-item>
+  
+      <nz-form-item>
+        <nz-form-label [nzRequired]="true">密碼</nz-form-label>
+        <nz-form-control nzErrorTip="請輸入至少 6 個字符的密碼">
+          <input nz-input type="password" formControlName="password" placeholder="請輸入密碼" />
+        </nz-form-control>
+      </nz-form-item>
+  
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary" [nzLoading]="isLoading" [disabled]="!loginForm.valid">
+            登入
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>

@@ -9,9 +9,29 @@
   line-height: 64px;
 }
 
+nz-header {
+  position: relative; /* 確保 header 是定位上下文 */
+  display: flex;
+  align-items: center;
+}
+
+.logout-container {
+  position: absolute;
+  right: 24px; /* 距離右邊 24px */
+  top: 50%;
+  transform: translateY(-50%); /* 垂直居中 */
+}
+
+.logout-container button {
+  margin: 0; /* 移除可能影響的預設外邊距 */
+}
+
 .sider-menu {
   height: 100%;
   border-right: 0;
+}
+.send-request{
+  margin-top: 40px;
 }
 
 .inner-layout {

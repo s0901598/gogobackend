@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
@@ -54,8 +55,10 @@ registerLocaleData(zh);
     NzDividerModule,
     NzUploadModule,
     NzTagModule,
-    NzSelectModule
-    
+    NzSelectModule,
+    NzInputModule
+   
+
   ],
   providers: [
     provideNzI18n(zh_TW),

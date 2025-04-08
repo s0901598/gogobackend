@@ -6,6 +6,7 @@ import { da_DK } from 'ng-zorro-antd/i18n';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select';
+import { Router } from '@angular/router';
 
 
 
@@ -83,7 +84,7 @@ export class DashboardComponent {
   form: FormGroup;
   
   
-  constructor(private modal: NzModalService,private fb:FormBuilder,private message:NzMessageService,) {
+  constructor(private modal: NzModalService,private fb:FormBuilder,private message:NzMessageService,private router: Router) {
     // 初始化表單
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -164,7 +165,7 @@ export class DashboardComponent {
             pdprice: this.form.get('price')?.value,
             picurl: this.fileList.length > 0 ? (this.fileList[0].url || this.fileList[0].thumbUrl || 'default-pic-url') : 'default-pic-url', // 存儲圖片 URL,
             disabled: false,
-            switchstatus: this.form.get('switchstatus')?.value,
+            switchstatus: this.form.get('switchstatus')?.value??false,// 確保有值
             createTime: new Date(), // 記錄創建時間
             labels: this.selectedLabels, // 存儲選中的標籤
           };
@@ -190,13 +191,7 @@ export class DashboardComponent {
     this.clickbtn = btn;
     this.showModal();
   }
-  // 處理 狀態開關 事件的函數
-  statusclick(): void {
-    
-    const currentStatus = this.form.get('switchstatus')?.value;
-    this.form.get('switchstatus')?.setValue(!currentStatus);
-    console.log('開關狀態:', this.form.get('switchstatus')?.value ? '開啟' : '關閉');   
-  }
+  
 
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
@@ -232,6 +227,7 @@ export class DashboardComponent {
       item.switchstatus = newStatus;
       console.log(`ID ${id} 狀態變更為: ${newStatus ? '開啟' : '關閉'}`);
       this.listOfData = [...this.listOfData]; // 觸發變更檢測
+      this.saveToLocalStorage(); // 保存到 localStorage
     }
   }
 
@@ -422,7 +418,7 @@ export class DashboardComponent {
             pdprice: this.form.get('price')?.value,
             picurl: this.fileList.length > 0 ? (this.fileList[0].url || this.fileList[0].thumbUrl || 'default-pic-url') : 'default-pic-url',
             disabled: false,
-            switchstatus: this.form.get('switchstatus')?.value,
+            switchstatus: this.form.get('switchstatus')?.value??false,//確保有值
             createTime: item.createTime, // 保留原始創建時間
             labels: this.selectedLabels,
           };
@@ -444,6 +440,13 @@ export class DashboardComponent {
         this.editItemId = null;
       },
     });
+  }
+
+
+  // 新增登出方法
+  logout(): void {
+    this.message.success('已登出');
+    this.router.navigate(['/login']); // 跳轉到登入頁面
   }
 
 
