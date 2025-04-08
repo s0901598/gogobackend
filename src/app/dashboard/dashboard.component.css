@@ -223,3 +223,7 @@ nz-tag:hover{
   background-color: #8c8c8c !important; /* 深灰底 */
   color: white !important; /* 白色文字 */
 }
+
+.del{
+  color: red !important;
+}
