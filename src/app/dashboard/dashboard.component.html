@@ -134,7 +134,9 @@
                               <td><nz-switch [ngModel]="data.switchstatus" [ngModelOptions]="{standalone: true}" (ngModelChange)="changeliststatus(data.id, $event)" ></nz-switch></td>
                               <td>{{ data.createTime | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
                               <td>
-                                <button nz-button nzType="link" (click)="deleteItem(data.id)">刪除</button>
+                                <a (click)="editItem(data)">編輯</a>
+                                <nz-divider nzType="vertical"></nz-divider>
+                                <a nz-popconfirm nzPopconfirmTitle="確定要刪除嗎？" (nzOnConfirm)="deleteItem(data.id)">刪除</a>
                               </td>
                             </tr>
                           }

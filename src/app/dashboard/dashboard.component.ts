@@ -68,9 +68,12 @@ export class DashboardComponent {
   isOn = false;
   fileList: NzUploadFile[] = []//上傳圖片
 
-  // 在類中新增一個屬性
-filteredProductNameList: NzSelectOptionInterface[] = [];
+  // 用於追蹤是否為編輯模式
+  private isEditMode: boolean = false;
+  private editItemId: number | null = null;
 
+  // 在類中新增一個屬性
+  filteredProductNameList: NzSelectOptionInterface[] = [];
 
   // 排序參數
   sortKey: string | null = 'createTime'; // 默認按創建時間排序
@@ -130,6 +133,8 @@ filteredProductNameList: NzSelectOptionInterface[] = [];
  
   //顯示彈窗
   showModal(): void {
+    this.isEditMode = false;
+    this.editItemId = null;
     // 重置表單
     console.log('productNameList:', this.productNameList);
     this.form.reset({switchstatus:false,name:''});// 重置表單，默認狀態為 false
@@ -281,9 +286,8 @@ filteredProductNameList: NzSelectOptionInterface[] = [];
   }
 
   // 檢查商品名稱是否重複
-  private isProductNameExists(name: string): boolean {
-    return this.listOfData.some(item => item.pdname === name);
-  }
+  private isProductNameExists(name: string,excludeId?: number): boolean {
+    return this.listOfData.some(item => item.pdname === name && (excludeId === undefined || item.id !== excludeId));  }
 
   // 新增方法：生成唯一的 ID
   private generateUniqueId(): number {
@@ -319,6 +323,7 @@ filteredProductNameList: NzSelectOptionInterface[] = [];
     }
     this.sortData();
   }
+
 
   handleChange(info: NzUploadChangeParam): void {
     let fileList = [...info.fileList];
@@ -378,6 +383,74 @@ filteredProductNameList: NzSelectOptionInterface[] = [];
   getTagIcon(label: string): string {
     return this.availableLabels.find(item => item.text === label)?.icon || 'fa-tag';
   }
+
+  // 新增編輯方法
+  editItem(item: Data): void {
+    this.isEditMode = true;
+    this.editItemId = item.id;
+
+    // 填充表單數據
+    this.form.patchValue({
+      name: item.pdname,
+      price: item.pdprice.toString(),
+      switchstatus: item.switchstatus,
+      labels: item.labels,
+    });
+    this.fileList = [];// 清空 fileList，要求重新上傳
+    this.selectedLabels = [...item.labels];
+
+    // 過濾未使用的商品名稱，但允許當前名稱
+    this.filteredProductNameList = this.productNameList.filter(option => 
+      !this.listOfData.some(data => data.pdname === option.value && data.id !== item.id)
+    );
+
+    this.modal.create({
+      nzTitle: '編輯商品',
+      nzContent: this.modalContent,
+      nzOkText: '更新',
+      nzCancelText: '取消',
+      nzOnOk: () => {
+        if (this.form.valid) {
+          const productName = this.form.get('name')?.value;
+          if (this.isProductNameExists(productName, item.id)) {
+            this.message.error('此商品名稱已存在！');
+            return false;
+          }
+          const updatedItem: Data = {
+            id: item.id,
+            pdname: productName,
+            pdprice: this.form.get('price')?.value,
+            picurl: this.fileList.length > 0 ? (this.fileList[0].url || this.fileList[0].thumbUrl || 'default-pic-url') : 'default-pic-url',
+            disabled: false,
+            switchstatus: this.form.get('switchstatus')?.value,
+            createTime: item.createTime, // 保留原始創建時間
+            labels: this.selectedLabels,
+          };
+          this.listOfData = this.listOfData.map(data => (data.id === item.id ? updatedItem : data));
+          this.saveToLocalStorage();
+          this.sortData();
+          this.message.success('商品更新成功！');
+          return true;
+        } else {
+          Object.values(this.form.controls).forEach(control => {
+            control.markAsDirty();
+            control.updateValueAndValidity();
+          });
+          return false;
+        }
+      },
+      nzOnCancel: () => {
+        this.isEditMode = false;
+        this.editItemId = null;
+      },
+    });
+  }
+
+
+
+
+
+
 
 
 }
