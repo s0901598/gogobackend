@@ -150,7 +150,13 @@
                                 <div class="item">
                                     <div class="item_title">商品名稱：</div>
                                     <div class="item_inpput">
-                                       <input type="text" nz-input formControlName="name" placeholder="請輸入商品名稱" />  
+                                      <nz-select
+                                      formControlName="name"
+                                      nzPlaceHolder="請選擇商品名稱"
+                                      [nzOptions]="filteredProductNameList"
+                                      style="width: 200px;"
+                                    >
+                                    </nz-select>  
                                     </div>
                                     <div *ngIf="form.get('name')?.dirty && form.get('name')?.errors" class="error-message">
                                         請輸入商品名稱

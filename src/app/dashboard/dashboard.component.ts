@@ -5,6 +5,7 @@ import { NzUploadChangeParam, NzUploadFile, NzUploadModule } from 'ng-zorro-antd
 import { da_DK } from 'ng-zorro-antd/i18n';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzSelectOptionInterface } from 'ng-zorro-antd/select';
 
 
 
@@ -32,6 +33,16 @@ export interface Data {
 })
 export class DashboardComponent {
   readonly presetColors = ['red', 'blue', 'green', 'yellow', 'purple','orange','brown']; // 可選標籤的顏色
+  // 定義商品名稱列表
+  productNameList: NzSelectOptionInterface[] = [
+    { label: 'T-shirt', value: 'T-shirt' },
+    { label: 'Jeans', value: 'Jeans' },
+    { label: 'Jacket', value: 'Jacket' },
+    { label: 'Shoes', value: 'Shoes' },
+    { label: 'Hat', value: 'Hat' },
+  ];
+  
+  
   // 定義標籤和圖標的映射
   availableLabels: { text: string; icon: string }[] = [
     { text: '1 King Bed', icon: 'fa-bed' },
@@ -57,6 +68,9 @@ export class DashboardComponent {
   isOn = false;
   fileList: NzUploadFile[] = []//上傳圖片
 
+  // 在類中新增一個屬性
+filteredProductNameList: NzSelectOptionInterface[] = [];
+
 
   // 排序參數
   sortKey: string | null = 'createTime'; // 默認按創建時間排序
@@ -79,8 +93,8 @@ export class DashboardComponent {
   ngOnInit(): void {
     console.log('進入')
     // 從 localStorage 讀取數據
-    
     const storedData = localStorage.getItem('listOfData');
+   
     if (storedData != null) {
       //console.log(storedData);
       this.listOfData = JSON.parse(storedData).map((item: any) => ({
@@ -117,9 +131,14 @@ export class DashboardComponent {
   //顯示彈窗
   showModal(): void {
     // 重置表單
-    this.form.reset({switchstatus:false});// 重置表單，默認狀態為 false
+    console.log('productNameList:', this.productNameList);
+    this.form.reset({switchstatus:false,name:''});// 重置表單，默認狀態為 false
     this.fileList = []; // 清空 fileList，避免顯示之前的圖片
     this.selectedLabels = []; // 清空選中的標籤
+    // 過濾未使用的商品名稱
+    this.filteredProductNameList = this.productNameList.filter(option => 
+    !this.listOfData.some(item => item.pdname === option.value)
+  );
     this.modal.create({
       nzTitle: '新增商品',
       nzContent: this.modalContent, // 使用模板
