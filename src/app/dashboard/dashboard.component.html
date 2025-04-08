@@ -124,9 +124,13 @@
                                 />
                                 <span *ngIf="!data.picurl || data.picurl === 'default-pic-url'">無圖片</span>
                               </td>
-                              <nz-tag *ngFor="let label of data.labels" [ngClass]="getTagClass(label)">
-                                {{ label }}
+                              <td>
+                                 <nz-tag *ngFor="let label of data.labels" [ngClass]="getTagClass(label)" >
+                                  <i class="fas {{ getTagIcon(label) }}"></i>
+                                  {{ label }}
                               </nz-tag>
+                              </td>
+                             
                               <td><nz-switch [ngModel]="data.switchstatus" [ngModelOptions]="{standalone: true}" (ngModelChange)="changeliststatus(data.id, $event)" ></nz-switch></td>
                               <td>{{ data.createTime | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
                               <td>
@@ -195,12 +199,13 @@
                                 <div>
                                   @for (label of availableLabels; track label) {
                                     <nz-tag
-                                      nzMode="checkable"
-                                      [nzChecked]="selectedLabels.includes(label)"
-                                      (nzCheckedChange)="checkChange(label, $event)"
-                                      [ngClass]="getTagClass(label)"                                       
+                                      nzMode="checkable"                                    
+                                      [nzChecked]="selectedLabels.includes(label.text)"
+                                      (nzCheckedChange)="checkChange(label.text,$event)"
+                                      [ngClass]="[getTagClass(label.text), selectedLabels.includes(label.text) ? 'checked' : '']"                                                                             
                                     >
-                                      {{ label }}
+                                    <i class="fas {{ label.icon }}"></i>
+                                      {{ label.text }}
                                     </nz-tag>
                                   }
                                 </div>

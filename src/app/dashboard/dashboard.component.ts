@@ -31,9 +31,18 @@ export interface Data {
  
 })
 export class DashboardComponent {
-  readonly presetColors = ['red', 'blue', 'green', 'yellow', 'purple']; // 可選標籤的顏色
-  readonly customColors = ['#f50', '#2db7f5', '#87d068', '#108ee9'];
-  availableLabels: string[] = ['促銷', '新品', '熱門', '限時', '特價']; // 可選標籤
+  readonly presetColors = ['red', 'blue', 'green', 'yellow', 'purple','orange','brown']; // 可選標籤的顏色
+  // 定義標籤和圖標的映射
+  availableLabels: { text: string; icon: string }[] = [
+    { text: '1 King Bed', icon: 'fa-bed' },
+    { text: 'Plasma TV', icon: 'fa-tv' },
+    { text: 'Free wi-fi', icon: 'fa-wifi' },
+    { text: 'Smoke-free', icon: 'fa-ban-smoking' },
+    {text:'1 King +2 Queen',icon: 'fa-bed'},
+    {text:'Free Newspaper',icon:'fa-newsapaer'},
+    {text:'Indoor corridor',icon:'fa-door-open'},
+
+  ];
   selectedLabels: string[] = []; // 當前選中的標籤
   checked = false;
   loading = false;
@@ -331,10 +340,10 @@ export class DashboardComponent {
   checkChange(label: string, checked: boolean):void{
     if (checked) {
       this.selectedLabels = [...this.selectedLabels, label];
-      console.log(`選中標籤: ${label}`); // 添加選中日誌
+      console.log(`選中標籤: ${label}`);
     } else {
       this.selectedLabels = this.selectedLabels.filter(l => l !== label);
-      console.log(`取消選中標籤: ${label}`); // 添加取消選中日誌
+      console.log(`取消選中標籤: ${label}`);
     }
     this.form.get('labels')?.setValue(this.selectedLabels);
     console.log('當前選中的標籤:', this.selectedLabels);
@@ -342,8 +351,13 @@ export class DashboardComponent {
 
   // 根據標籤索引返回對應的類別
   getTagClass(label: string): string {
-    const index = this.availableLabels.indexOf(label) % this.presetColors.length;
-    return `tag-${this.presetColors[index]}`;
+    const index = this.availableLabels.findIndex(item => item.text === label) % this.presetColors.length;
+        return `tag-${this.presetColors[index]}`;
+    
+  }
+  // 新增方法：根據標籤文字獲取 Font Awesome 圖標類名
+  getTagIcon(label: string): string {
+    return this.availableLabels.find(item => item.text === label)?.icon || 'fa-tag';
   }
 
 
