@@ -16,7 +16,7 @@ export interface Data {
   id: number;
   pdname: string;
   pdprice: number;
-  picurl:string;
+  picurl:string[];
   disabled:boolean;
   switchstatus: boolean;
   createTime:Date;
@@ -68,6 +68,9 @@ export class DashboardComponent {
   [x: string]: any;
   isOn = false;
   fileList: NzUploadFile[] = []//上傳圖片
+  previewVisible = false; // 控制預覽彈窗顯示
+  previewImages: string[] = []; // 儲存所有預覽圖片URL
+  previewIndex = 0; // 當前預覽的圖片索引
 
   // 用於追蹤是否為編輯模式
   private isEditMode: boolean = false;
@@ -112,7 +115,7 @@ export class DashboardComponent {
         id: index+1,
         pdname: `Edward King ${index}`,
         pdprice: 80,
-        picurl: `London, Park Lane no. ${index}`,
+        picurl: [`London, Park Lane no. ${index}`],
         disabled: false,
         switchstatus: false,
         createTime: new Date(), // 設置不同的日期以便排序
@@ -163,7 +166,7 @@ export class DashboardComponent {
             id: newId,
             pdname: productName,
             pdprice: this.form.get('price')?.value,
-            picurl: this.fileList.length > 0 ? (this.fileList[0].url || this.fileList[0].thumbUrl || 'default-pic-url') : 'default-pic-url', // 存儲圖片 URL,
+            picurl: this.fileList.map(file => file.url || file.thumbUrl || 'default-pic-url'), // 存儲多張圖片 URL,
             disabled: false,
             switchstatus: this.form.get('switchstatus')?.value??false,// 確保有值
             createTime: new Date(), // 記錄創建時間
@@ -323,6 +326,11 @@ export class DashboardComponent {
 
   handleChange(info: NzUploadChangeParam): void {
     let fileList = [...info.fileList];
+    // 限制最多5張圖片
+  if (fileList.length > 5) {
+    fileList = fileList.slice(0, 5);
+    this.message.warning('最多只能上傳5張圖片');
+  }
     fileList = fileList.map(file => {
       if (file.status === 'done' && file.response) {
         file.url = file.response.url;
@@ -339,24 +347,34 @@ export class DashboardComponent {
   }
 
   // 新增方法：顯示圖片預覽
-  previewImage(url: string): void {
-    if (url && url !== 'default-pic-url') {
-      console.log('改變尺寸');
-      this.modal.create({
-        nzTitle: '圖片預覽',
-        nzContent: `
-          <div class="preview-container" >
-            <img nz-image src="${url}" width="300px" height="300px"  />
-          </div>
-        `,
-        nzFooter: null,
-        
-      });
+  previewImage(urls: string|string[]): void {
+    if (Array.isArray(urls) && urls.length > 0 && urls[0] !== 'default-pic-url') {
+      this.previewImages = urls;
+      this.previewIndex = 0;
+      this.previewVisible = true;
+    } else if (typeof urls === 'string' && urls !== 'default-pic-url') {
+      this.previewImages = [urls];
+      this.previewIndex = 0;
+      this.previewVisible = true;
     } else {
       this.message.error('無效的圖片路徑！');
     }
-
   }
+  // 新增切換圖片方法
+    previewNext(): void {
+      if (this.previewIndex < this.previewImages.length - 1) {
+        this.previewIndex++;
+      }
+    }
+
+    previewPrev(): void {
+      if (this.previewIndex > 0) {
+        this.previewIndex--;
+      }
+    }
+
+
+
   checkChange(label: string, checked: boolean):void{
     if (checked) {
       this.selectedLabels = [...this.selectedLabels, label];
@@ -384,7 +402,12 @@ export class DashboardComponent {
   editItem(item: Data): void {
     this.isEditMode = true;
     this.editItemId = item.id;
-
+    this.fileList = item.picurl.map((url, index) => ({
+      uid: String(-index),
+      name: `image${index}.png`,
+      status: 'done',
+      url: url
+    }));
     // 填充表單數據
     this.form.patchValue({
       name: item.pdname,
@@ -416,7 +439,7 @@ export class DashboardComponent {
             id: item.id,
             pdname: productName,
             pdprice: this.form.get('price')?.value,
-            picurl: this.fileList.length > 0 ? (this.fileList[0].url || this.fileList[0].thumbUrl || 'default-pic-url') : 'default-pic-url',
+            picurl: this.fileList.map(file => file.url || file.thumbUrl || 'default-pic-url'),
             disabled: false,
             switchstatus: this.form.get('switchstatus')?.value??false,//確保有值
             createTime: item.createTime, // 保留原始創建時間
@@ -448,12 +471,6 @@ export class DashboardComponent {
     this.message.success('已登出');
     this.router.navigate(['/login']); // 跳轉到登入頁面
   }
-
-
-
-
-
-
 
 
 }

@@ -119,14 +119,44 @@
                               <td>{{ data.pdname }}</td>
                               <td>{{ data.pdprice}}</td>
                               <td>
-                                <img
-                                *ngIf="data.picurl && data.picurl !== 'default-pic-url'"
-                                [src]="data.picurl"
-                                style="width: 50px; height: 50px; cursor: pointer;"
-                                (click)="previewImage(data.picurl)"
-                                />
-                                <span *ngIf="!data.picurl || data.picurl === 'default-pic-url'">無圖片</span>
+                                <div *ngIf="data.picurl && data.picurl[0] !== 'default-pic-url'">
+                                  <img
+                                    [src]="data.picurl[0]"
+                                    style="width: 50px; height: 50px; cursor: pointer;"
+                                    (click)="previewImage(data.picurl)"
+                                  />
+                                  <span *ngIf="data.picurl.length > 1"> </span>
+                                </div>
+                                <span *ngIf="!data.picurl || data.picurl[0] === 'default-pic-url'">無圖片</span>
+                                <!-- 添加預覽彈窗 -->
+                                <nz-modal
+                                [(nzVisible)]="previewVisible"
+                                nzTitle="圖片預覽"                               
+                                [nzFooter]="modalFooter"
+                                (nzOnCancel)="previewVisible = false"
+                                >
+                                <ng-container *nzModalContent>
+                                  <div class="preview-container">
+                                    <button nz-button nzType="default" (click)="previewPrev()" [disabled]="previewIndex === 0">
+                                      <i nz-icon nzType="left"></i>
+                                    </button>
+                                    <img [src]="previewImages[previewIndex]" style="max-width: 500px; max-height: 500px;" />
+                                    <button nz-button nzType="default" (click)="previewNext()" [disabled]="previewIndex === previewImages.length - 1">
+                                      <i nz-icon nzType="right"></i>
+                                    </button>
+                                  </div>
+                                  <div style="text-align: center; margin-top: 10px;">
+                                    {{previewIndex + 1}} / {{previewImages.length}}
+                                  </div>
+                                </ng-container>
+                                <ng-template #modalFooter>
+                                  <button nz-button nzType="primary" (click)="previewVisible = false">關閉</button>
+                                </ng-template>
+                                </nz-modal>
+                              
                               </td>
+                              
+                                
                               <td>
                                  <nz-tag *ngFor="let label of data.labels" [ngClass]="getTagClass(label)" >
                                   <i class="fas {{ getTagIcon(label) }}"></i>

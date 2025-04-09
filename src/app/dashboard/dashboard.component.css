@@ -77,6 +77,9 @@ nz-content {
   border: 1px solid;
   border-radius: 3px;
 }
+.ant-table-cell:nth-child(6){
+  width: 30px;
+}
 
 /* 確保圖片欄位的連結樣式 */
 nz-table td a {
@@ -226,4 +229,10 @@ nz-tag:hover{
 
 .del{
   color: red !important;
+}
+.preview-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
