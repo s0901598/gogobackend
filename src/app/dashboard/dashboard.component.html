@@ -12,11 +12,7 @@
             <path d="M 70 30 L 90 10" stroke="#fe4332" stroke-width="5" />
           </svg>
       </div>
-      <ul nz-menu nzTheme="dark" nzMode="horizontal" class="header-menu">
-        <li nz-menu-item [nzSelected]="selectedNav === 'nav1'" (click)="selectNav('nav1')">nav 1</li>
-        <li nz-menu-item [nzSelected]="selectedNav === 'nav2'" (click)="selectNav('nav2')">nav 2</li>
-        <li nz-menu-item [nzSelected]="selectedNav === 'nav3'" (click)="selectNav('nav3')">nav 3</li>
-      </ul>
+    
       <div class="logout-container">
         <button nz-button nzType="default" (click)="logout()">登出</button>
       </div>
@@ -26,41 +22,29 @@
         <ul nz-menu nzMode="inline" class="sider-menu">
           <li nz-submenu nzOpen nzIcon="product" nzTitle="商品管理">
             <ul>
-              <li nz-menu-item nzSelected>商品列表</li>
+              <li nz-menu-item (click)="selectNav('商品列表')">商品列表</li>
+            </ul>
+          </li>
+          <li nz-submenu nzTitle="預約管理" nzIcon="laptop">
+            <ul>
+                <li nz-menu-item (click)="selectNav('預約列表')">預約列表</li>
+            </ul>
+        </li>
+          <li nz-submenu nzTitle="玩家管理" nzIcon="user">
+            <ul>
+              <li nz-menu-item (click)="selectNav('玩家查詢')">玩家查詢</li>
               
-            </ul>
-          </li>
-          <li nz-submenu nzTitle="subnav 2" nzIcon="laptop">
-            <ul>
-              <li nz-menu-item>hello man</li>
-              <li nz-menu-item>option6</li>
-              <li nz-menu-item>option7</li>
-              <li nz-menu-item>option8</li>
-            </ul>
-          </li>
-          <li nz-submenu nzTitle="subnav 3" nzIcon="notification">
-            <ul>
-              <li nz-menu-item>option9</li>
-              <li nz-menu-item>option10</li>
-              <li nz-menu-item>option11</li>
-              <li nz-menu-item>option12</li>
             </ul>
           </li>
         </ul>
       </nz-sider>
       <nz-layout class="inner-layout">
-        <nz-breadcrumb>
-          <nz-breadcrumb-item>Home</nz-breadcrumb-item>
-          <nz-breadcrumb-item>List</nz-breadcrumb-item>
-          <nz-breadcrumb-item>App</nz-breadcrumb-item>
-        </nz-breadcrumb>
         <nz-content >
                 <div class="inner-content">
                 <!-- 根據選中的 nav 動態顯示內容 -->
-                    <div *ngIf="selectedNav === 'nav1'">
-                        <button nz-button nzType="primary" [class.active]="clickbtn === '+btn'" (click)="clicknewbtn('+btn')">+新增</button>
-                    </div>
-                    <div class="send-request">
+                    <div *ngIf="selectedNav === '商品列表'">
+                    <button nz-button nzType="primary" [class.active]="clickbtn === '+btn'" (click)="clicknewbtn('+btn')">+新增</button>
+                     <div class="send-request">
                         <button
                           nz-button
                           nzType="primary"
@@ -72,8 +56,9 @@
                           批量刪除
                         </button>
                         <span>Selected {{ setOfCheckedId.size }} items</span>
-                      </div>
-                      <nz-table
+                    </div>
+
+                     <nz-table
                         #rowSelectionTable
                         nzShowPagination
                         nzShowSizeChanger
@@ -152,9 +137,7 @@
                                 </ng-template>
                                 </nz-modal>
                               
-                              </td>
-                              
-                                
+                              </td> 
                               <td>
                                  <nz-tag *ngFor="let label of data.labels" [ngClass]="getTagClass(label)" >
                                   <i class="fas {{ getTagIcon(label) }}"></i>
@@ -173,9 +156,7 @@
                           }
                         </tbody>
                       </nz-table>
-                    
-                    
-                    
+                    </div>   
                     <!-- 彈窗內容模板 -->
                     <ng-template #modalContent>
                         <form nz-form [formGroup]="form" class="vertical-form" >
@@ -250,17 +231,19 @@
                               </div>
                             </nz-form-item>
                         </form>   
-                      </ng-template>
+                    </ng-template>
+                     <!-- 如需要其他nav再取消註解 -->
 
-                   
-                    <div *ngIf="selectedNav === 'nav2'">
-                    <h2>Content for Nav 2</h2>
-                    <p>This is the content for nav2.</p>
-                    </div>
-                    <div *ngIf="selectedNav === 'nav3'">
+                    <div *ngIf="selectedNav === '預約列表'">
                     <h2>Content for Nav 3</h2>
                     <p>This is the content for nav3.</p>
                     </div>
+                    <div *ngIf="selectedNav === '玩家查詢'">
+                      
+                        this is playeresarch
+ 
+                    </div>
+                   
                 </div>
         </nz-content>
       </nz-layout>
