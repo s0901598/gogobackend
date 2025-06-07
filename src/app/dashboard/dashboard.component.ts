@@ -30,20 +30,20 @@ export interface Data {
   standalone: false,
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
- 
+
 })
 export class DashboardComponent {
   readonly presetColors = ['red', 'blue', 'green', 'yellow', 'purple','orange','brown']; // 可選標籤的顏色
   // 定義商品名稱列表
   productNameList: NzSelectOptionInterface[] = [
-    { label: 'T-shirt', value: 'T-shirt' },
-    { label: 'Jeans', value: 'Jeans' },
-    { label: 'Jacket', value: 'Jacket' },
-    { label: 'Shoes', value: 'Shoes' },
-    { label: 'Hat', value: 'Hat' },
+    { label: '精緻豪華四人房', value: '4 people ' },
+    { label: '蜜月雙人房', value: 'couple room' },
+    { label: '家庭三人房', value: '3 people ' },
+    { label: '樓中樓四人房', value: '4 people' },
+    { label: '黃金單身房', value: '1 person' },
   ];
-  
-  
+
+
   // 定義標籤和圖標的映射
   availableLabels: { text: string; icon: string }[] = [
     { text: '1 King Bed', icon: 'fa-bed' },
@@ -85,8 +85,8 @@ export class DashboardComponent {
 
   @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>; // 引用模板
   form: FormGroup;
-  
-  
+
+
   constructor(private modal: NzModalService,private fb:FormBuilder,private message:NzMessageService,private router: Router) {
     // 初始化表單
     this.form = this.fb.group({
@@ -96,12 +96,12 @@ export class DashboardComponent {
       labels:[[]],//儲存選中的標籤
     });
   }
-  
+
   ngOnInit(): void {
     console.log('進入')
     // 從 localStorage 讀取數據
     const storedData = localStorage.getItem('listOfData');
-   
+
     if (storedData != null) {
       //console.log(storedData);
       this.listOfData = JSON.parse(storedData).map((item: any) => ({
@@ -134,7 +134,7 @@ export class DashboardComponent {
    selectNav(nav: string): void {
     this.selectedNav = nav;
   }
- 
+
   //顯示彈窗
   showModal(): void {
     this.isEditMode = false;
@@ -145,7 +145,7 @@ export class DashboardComponent {
     this.fileList = []; // 清空 fileList，避免顯示之前的圖片
     this.selectedLabels = []; // 清空選中的標籤
     // 過濾未使用的商品名稱
-    this.filteredProductNameList = this.productNameList.filter(option => 
+    this.filteredProductNameList = this.productNameList.filter(option =>
     !this.listOfData.some(item => item.pdname === option.value)
   );
     this.modal.create({
@@ -194,7 +194,7 @@ export class DashboardComponent {
     this.clickbtn = btn;
     this.showModal();
   }
-  
+
 
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
@@ -211,7 +211,7 @@ export class DashboardComponent {
   refreshCheckedStatus(): void {
     this.checked = this.listOfCurrentPageData.every(({ id }) => this.setOfCheckedId.has(id));
     this.indeterminate = this.listOfCurrentPageData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
-    
+
 
 }
   onItemChecked(id: number, checked: boolean): void {
@@ -223,7 +223,7 @@ export class DashboardComponent {
 
     this.listOfCurrentPageData.forEach(({ id }) => this.updateCheckedSet(id, checked));
   }
- 
+
   changeliststatus(id: number, newStatus: boolean):void{
     const item = this.listOfData.find(data => data.id === id);
     if (item) {
@@ -246,14 +246,14 @@ export class DashboardComponent {
     this.saveToLocalStorage();
     this.message.success('刪除商品成功！');
     this.refreshCheckedStatus();
- 
+
   }
 
   // 批量刪除（Send Request 按鈕）
   sendRequest(): void {
     this.loading = true;
     const selectedItems = this.listOfData.filter(data => this.setOfCheckedId.has(data.id));
-    
+
     // 檢查是否有狀態為「開」的項目
     const hasEnabledItems = selectedItems.some(item => item.switchstatus);
     if (hasEnabledItems) {
@@ -263,7 +263,7 @@ export class DashboardComponent {
     }
 
     // 執行批量刪除
-   
+
     if (hasEnabledItems) {
       this.message.error('無法刪除狀態為開啟的商品！');
       this.loading = false;
@@ -391,7 +391,7 @@ export class DashboardComponent {
   getTagClass(label: string): string {
     const index = this.availableLabels.findIndex(item => item.text === label) % this.presetColors.length;
         return `tag-${this.presetColors[index]}`;
-    
+
   }
   // 新增方法：根據標籤文字獲取 Font Awesome 圖標類名
   getTagIcon(label: string): string {
@@ -419,7 +419,7 @@ export class DashboardComponent {
     this.selectedLabels = [...item.labels];
 
     // 過濾未使用的商品名稱，但允許當前名稱
-    this.filteredProductNameList = this.productNameList.filter(option => 
+    this.filteredProductNameList = this.productNameList.filter(option =>
       !this.listOfData.some(data => data.pdname === option.value && data.id !== item.id)
     );
 
