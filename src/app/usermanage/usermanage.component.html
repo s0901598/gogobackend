@@ -1,0 +1,20 @@
+<nz-table #basicTable [nzData]="users">
+    <thead>
+      <tr>
+        <th>帳號</th>
+        <th>姓名</th>
+        <th>密碼</th>
+        <th>電話</th>
+        <th>生日</th>
+        <th>電子郵件</th>
+        <th>性別</th>
+        <th>創建日期</th>
+        <th>是否封禁</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of basicTable.data">
+      
+      </tr>
+    </tbody>
+  </nz-table>

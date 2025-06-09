@@ -43,8 +43,9 @@
                 <div class="inner-content">
                 <!-- 根據選中的 nav 動態顯示內容 -->
                     <div *ngIf="selectedNav === '商品列表'">
-                    <button nz-button nzType="primary" [class.active]="clickbtn === '+btn'" (click)="clicknewbtn('+btn')">+新增</button>
-                     <div class="send-request">
+                      <div>
+                        <button nz-button nzType="primary" [class.active]="clickbtn === '+btn'" (click)="clicknewbtn('+btn')">+新增</button>
+                        <div class="send-request">
                         <button
                           nz-button
                           nzType="primary"
@@ -156,6 +157,8 @@
                           }
                         </tbody>
                       </nz-table>
+                      </div>
+                   
                     </div>   
                     <!-- 彈窗內容模板 -->
                     <ng-template #modalContent>
@@ -240,7 +243,7 @@
                     </div>
                     <div *ngIf="selectedNav === '玩家查詢'">
                       
-                        this is playeresarch
+                        <app-usermanage></app-usermanage>
  
                     </div>
                    

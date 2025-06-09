@@ -27,6 +27,10 @@ import zh from '@angular/common/locales/zh';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient } from '@angular/common/http';
+import { UsermanageComponent } from './usermanage/usermanage.component';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 registerLocaleData(zh);
 
@@ -35,7 +39,9 @@ registerLocaleData(zh);
   declarations: [
     AppComponent,
     DashboardComponent,
-    LoginComponent
+    LoginComponent,
+    UsermanageComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -56,7 +62,9 @@ registerLocaleData(zh);
     NzUploadModule,
     NzTagModule,
     NzSelectModule,
-    NzInputModule
+    NzInputModule,
+    NzListModule,
+    BrowserAnimationsModule
    
 
   ],
