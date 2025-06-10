@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { User, UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-usermanage',
@@ -7,7 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './usermanage.component.css'
 })
 export class UsermanageComponent {
-  users=[{
-    
-  }]
+
 }

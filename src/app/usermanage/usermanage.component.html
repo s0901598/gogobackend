@@ -14,7 +14,15 @@
     </thead>
     <tbody>
       <tr *ngFor="let user of basicTable.data">
-      
+        <td>{{ user.account }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.password }}</td>
+        <td>{{ user.phonenumber }}</td>
+        <td>{{ user.bir }}</td>
+        <td>{{ user.account }}</td> <!-- 如果 API 返回 email，可以替換此處 -->
+        <td>{{ user.gender ? '男' : '女' }}</td>
+        <td>{{ user.createtime | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ user.isdelete ? '是' : '否' }}</td>
       </tr>
     </tbody>
   </nz-table>
