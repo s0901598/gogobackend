@@ -1,28 +1,30 @@
 <nz-table #basicTable [nzData]="users">
-    <thead>
-      <tr>
-        <th>帳號</th>
-        <th>姓名</th>
-        <th>密碼</th>
-        <th>電話</th>
-        <th>生日</th>
-        <th>電子郵件</th>
-        <th>性別</th>
-        <th>創建日期</th>
-        <th>是否封禁</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of basicTable.data">
-        <td>{{ user.account }}</td>
-        <td>{{ user.username }}</td>
-        <td>{{ user.password }}</td>
-        <td>{{ user.phonenumber }}</td>
-        <td>{{ user.bir }}</td>
-        <td>{{ user.account }}</td> <!-- 如果 API 返回 email，可以替換此處 -->
-        <td>{{ user.gender ? '男' : '女' }}</td>
-        <td>{{ user.createtime | date: 'yyyy-MM-dd' }}</td>
-        <td>{{ user.isdelete ? '是' : '否' }}</td>
-      </tr>
-    </tbody>
-  </nz-table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>帳號</th>
+      <th>姓名</th>
+      <th>密碼</th>
+      <th>電話</th>
+      <th>生日</th>
+      <th>電子郵件</th>
+      <th>性別</th>
+      <th>創建日期</th>
+      <th>是否封禁</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of basicTable.data">
+      <td>{{user.memberid}}</td>
+      <td>{{ user.account }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.password }}</td>
+      <td>{{ user.phonenumber }}</td>
+      <td>{{ user.bir }}</td>
+      <td>{{ user.account }}</td> <!-- 如果 API 返回 email，可以替換此處 -->
+      <td>{{ user.gender ? '男' : '女' }}</td>
+      <td>{{ user.createtime | date: 'yyyy-MM-dd hh:mm:ss' }}</td>
+      <td>{{ user.isdelete ? '是' : '否' }}</td>
+    </tr>
+  </tbody>
+</nz-table>

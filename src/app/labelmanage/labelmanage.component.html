@@ -1,0 +1,26 @@
+<button nz-button nzType="primary" (click)="openModal()">+新增</button>
+<nz-table #basicTable [nzData]="labels">
+  <thead>
+    <tr>
+      <th>標籤ID</th>
+      <th>標籤ID名稱</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let label of basicTable.data">
+      <td>{{label.labelid}}</td>
+      <td>{{label.specificname}}</td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<nz-modal [(nzVisible)]="showModal" nzTitle="圖片預覽" [nzFooter]="modalFooter" (nzOnCancel)="showModal = false">
+  <ng-container *nzModalContent>
+    <div>
+      HELLO WORLD
+    </div>
+  </ng-container>
+  <ng-template #modalFooter>
+    <button nz-button nzType="primary" (click)="showModal = false">關閉</button>
+  </ng-template>
+</nz-modal>

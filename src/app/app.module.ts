@@ -30,6 +30,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { UsermanageComponent } from './usermanage/usermanage.component';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LabelmanageComponent } from './labelmanage/labelmanage.component';
 
 
 registerLocaleData(zh);
@@ -41,6 +42,7 @@ registerLocaleData(zh);
     DashboardComponent,
     LoginComponent,
     UsermanageComponent,
+    LabelmanageComponent,
     
   ],
   imports: [

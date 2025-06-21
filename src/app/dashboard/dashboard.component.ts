@@ -7,6 +7,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select';
 import { Router } from '@angular/router';
+import { HttpService } from '../share/service/http.service';
 
 
 
@@ -87,7 +88,14 @@ export class DashboardComponent {
   form: FormGroup;
 
 
-  constructor(private modal: NzModalService,private fb:FormBuilder,private message:NzMessageService,private router: Router) {
+  constructor(private http:HttpService,  private modal: NzModalService,private fb:FormBuilder,private message:NzMessageService,private router: Router) {
+
+     this.http.get('getlabel/').subscribe((x:any)=>{
+      this.availableLabels = x.labels.map((y:any,index:number)=> {
+        return {text:y.specificname,icon:this.availableLabels[index].icon}
+      });
+    })
+
     // 初始化表單
     this.form = this.fb.group({
       name: ['', Validators.required],
