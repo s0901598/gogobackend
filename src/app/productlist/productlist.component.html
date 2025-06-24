@@ -1,0 +1,156 @@
+<div>
+    <button nz-button nzType="primary" [class.active]="clickbtn === '+btn'"
+      (click)="clicknewbtn('+btn')">+新增</button>
+    <div class="send-request">
+      <button nz-button nzType="primary" [disabled]="setOfCheckedId.size === 0" [nzLoading]="loading"
+        (click)="sendRequest()" nzDanger>
+        批量刪除
+      </button>
+      <span>Selected {{ setOfCheckedId.size }} items</span>
+    </div>
+
+    <nz-table #rowSelectionTable nzShowPagination nzShowSizeChanger [nzData]="listOfData"
+      (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+      <thead>
+        <tr>
+          <th [nzChecked]="checked" [nzIndeterminate]="indeterminate" nzLabel="Select all"
+            (nzCheckedChange)="onAllChecked($event)"></th>
+          <th>ID</th>
+          <th>商品名稱</th>
+          <th>商品價格</th>
+          <th>圖片</th>
+          <th>項目</th>
+          <th>狀態</th>
+          <th nzSortOrder="sortValue as 'ascend' | 'descend' | null" nzSortKey="createTime"
+            (nzSortOrderChange)="onSortChange({ key: 'createTime', value: $event })">
+            創建時間
+          </th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (data of rowSelectionTable.data; track data) {
+        <tr>
+          <td [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled" [nzLabel]="data.pdname"
+            (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+          <td>{{data.id}}</td>
+          <td>{{ data.pdname }}</td>
+          <td>{{ data.pdprice}}</td>
+          <td>
+            <div *ngIf="data.picurl && data.picurl[0] !== 'default-pic-url'">
+              <img [src]="data.picurl[0]" style="width: 50px; height: 50px; cursor: pointer;"
+                (click)="previewImage(data.picurl)" />
+              <span *ngIf="data.picurl.length > 1"> </span>
+            </div>
+            <span *ngIf="!data.picurl || data.picurl[0] === 'default-pic-url'">無圖片</span>
+            <!-- 添加預覽彈窗 -->
+            <nz-modal [(nzVisible)]="previewVisible" nzTitle="圖片預覽" [nzFooter]="modalFooter"
+              (nzOnCancel)="previewVisible = false">
+              <ng-container *nzModalContent>
+                <div class="preview-container">
+                  <button nz-button nzType="default" (click)="previewPrev()" [disabled]="previewIndex === 0">
+                    <i nz-icon nzType="left"></i>
+                  </button>
+                  <img [src]="previewImages[previewIndex]" style="max-width: 500px; max-height: 500px;" />
+                  <button nz-button nzType="default" (click)="previewNext()"
+                    [disabled]="previewIndex === previewImages.length - 1">
+                    <i nz-icon nzType="right"></i>
+                  </button>
+                </div>
+                <div style="text-align: center; margin-top: 10px;">
+                  {{previewIndex + 1}} / {{previewImages.length}}
+                </div>
+              </ng-container>
+              <ng-template #modalFooter>
+                <button nz-button nzType="primary" (click)="previewVisible = false">關閉</button>
+              </ng-template>
+            </nz-modal>
+
+          </td>
+          <td>
+            <nz-tag *ngFor="let label of data.labels" [ngClass]="getTagClass(label)">
+              <i class="fas {{ getTagIcon(label) }}"></i>
+              {{ label }}
+            </nz-tag>
+          </td>
+
+          <td><nz-switch [ngModel]="data.switchstatus" [ngModelOptions]="{standalone: true}"
+              (ngModelChange)="changeliststatus(data.id, $event)"></nz-switch></td>
+          <td>{{ data.createTime | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+          <td>
+            <a (click)="editItem(data)">編輯</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a class="del" (click)="deleteItem(data.id)">刪除</a>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </nz-table>
+  </div>
+
+  <!-- 彈窗內容模板 -->
+  <ng-template #modalContent>
+    <form nz-form [formGroup]="form" class="vertical-form">
+      <nz-form-item>
+        <div class="item">
+          <div class="item_title">商品名稱：</div>
+          <div class="item_inpput">
+            <nz-select formControlName="name" nzPlaceHolder="請選擇商品名稱" [nzOptions]="filteredProductNameList"
+              style="width: 200px;">
+            </nz-select>
+          </div>
+          <div *ngIf="form.get('name')?.dirty && form.get('name')?.errors" class="error-message">
+            請輸入商品名稱
+          </div>
+        </div>
+      </nz-form-item>
+
+      <nz-form-item>
+        <div class="item">
+          <div class="item_title">商品價格：</div>
+          <div class="item_inpput">
+            <input type="text" formControlName="price" placeholder="請輸入價格" />
+            （元）
+          </div>
+          <div *ngIf="form.get('price')?.dirty && form.get('price')?.errors" class="error-message">
+            請輸入有效的商品價格
+          </div>
+
+        </div>
+      </nz-form-item>
+
+      <nz-form-item>
+        <div class="item">
+          <div class="item_title">商品狀態：</div>
+          <nz-switch formControlName="switchstatus"></nz-switch>
+        </div>
+      </nz-form-item>
+      <nz-form-item>
+        <div class="picupload">
+          商品圖片：
+          <nz-upload nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" [nzFileList]="fileList"
+            (nzChange)="handleChange($event)">
+            <button nz-button>
+              <nz-icon nzType="upload" />
+              Upload
+            </button>
+          </nz-upload>
+        </div>
+      </nz-form-item>
+      <nz-form-item>
+        <div class="pdlabel">
+          <h4 style="margin-bottom: 16px">選擇標籤：</h4>
+          <div>
+            @for (label of availableLabels; track label) {
+            <nz-tag nzMode="checkable" [nzChecked]="selectedLabels.includes(label.text)"
+              (nzCheckedChange)="checkChange(label.text,$event)"
+              [ngClass]="[getTagClass(label.text), selectedLabels.includes(label.text) ? 'checked' : '']">
+              <i class="fas {{ label.icon }}"></i>
+              {{ label.text }}
+            </nz-tag>
+            }
+          </div>
+        </div>
+      </nz-form-item>
+    </form>
+  </ng-template>

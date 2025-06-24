@@ -1,0 +1,183 @@
+/* 彈窗表單欄位垂直顯示 */
+.vertical-form .ant-form-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 16px; /* 調整間距 */
+  }
+  
+  .item {
+    display: flex;
+  }
+  
+  .item_title {
+    margin-right: 10px;
+  }
+  
+  .error-message {
+    color: red;
+  }
+  
+  .item_inpput > input {
+    border: 1px solid;
+    border-radius: 3px;
+  }
+  .ant-table-cell:nth-child(6){
+    width: 30px;
+  }
+  
+  /* 確保圖片欄位的連結樣式 */
+  nz-table td a {
+    color: #1890ff;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  
+  nz-table td a:hover {
+    color: #40a9ff;
+  }
+  
+  .preview-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .ant-tag {
+    margin-bottom: 8px;
+  }
+  
+  /* 標籤基礎樣式（適用於彈窗和表格） */
+  nz-tag {
+    margin-left: 20px;
+    margin-top: 25px;
+    font-size: 14px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  nz-tag:hover{
+    color: rgb(61, 58, 58)!important;
+  }
+  
+    /* 紅色標籤 - 未選中 */
+    .tag-red {
+      border: 1px solid #ff4d4f;
+      background-color: #ffcccb;
+      color: #cf1322;
+    }
+  
+    /* 紅色標籤 - 選中 */
+    .tag-red.checked {
+      border: 1px solid #cf1322 !important;
+      background-color: #cf1322 !important;
+      color: white !important;
+    }
+  
+  /* 藍色標籤 - 未選中 */
+  .tag-blue {
+    border: 1px solid #40a9ff;
+    background-color: #e6f7ff;
+    color: #096dd9;
+  }
+  
+  /* 藍色標籤 - 選中 */
+  .tag-blue.checked {
+    border: 1px solid #096dd9 !important;
+    background-color: #096dd9 !important;
+    color: white !important;
+  }
+  
+  /* 綠色標籤 - 未選中 */
+  .tag-green {
+    border: 1px solid #73d13d;
+    background-color: #f6ffed;
+    color: #389e0d;
+  }
+  
+  /* 綠色標籤 - 選中 */
+  .tag-green.checked {
+    border: 1px solid #389e0d !important;
+    background-color: #389e0d !important;
+    color: white !important;
+  }
+  
+  /* 黃色標籤 - 未選中 */
+    .tag-yellow {
+      border: 1px solid #80CBC4;
+      background-color: #E0F2F1;
+      color: #00796B;
+    }
+  
+    /* 黃色標籤 - 選中 */
+    .tag-yellow.checked {
+      border: 1px solid #00796B !important;
+      background-color: #00796B !important;
+      color: white !important;
+    }
+  
+  /* 紫色標籤 - 未選中 */
+  .tag-purple {
+    border: 1px solid #9254de;
+    background-color: #f9f0ff;
+    color: #531dab;
+  }
+  
+  /* 紫色標籤 - 選中 */
+  .tag-purple.checked {
+    border: 1px solid #531dab !important;
+    background-color: #531dab !important;
+    color: white !important;
+  }
+  
+  /* 橘色標籤 - 未選中 */
+  .tag-orange {
+    border: 1px solid #FF7043;
+    background-color: #FBE9E7;
+    color: #FF7043;
+  }
+  
+  /* 橘色標籤 - 選中 */
+  .tag-orange.checked {
+    border: 1px solid #FF5722 !important;
+    background-color: #FF5722 !important;
+    color: white !important;
+  }
+  
+  /* 咖啡色標籤 - 未選中 */
+  .tag-brown {
+    border: 1px solid #76635c;
+    background-color: #EFEBE9;
+    color: #76635c;
+  }
+  
+  /* 咖啡色標籤 - 選中 */
+  .tag-brown.checked {
+    border: 1px solid #6D4C41 !important;
+    background-color: #6D4C41 !important;
+    color: white !important;
+  }
+  
+  /* 默認標籤 - 未選中 */
+  .tag-default {
+    border: 1px solid #d9d9d9; /* 灰框 */
+    background-color: #f5f5f5; /* 淺灰底 */
+    color: #595959; /* 深灰字 */
+  }
+  
+  /* 默認標籤 - 選中 */
+  .tag-default.checked {
+    border: 1px solid #8c8c8c !important; /* 深灰框 */
+    background-color: #8c8c8c !important; /* 深灰底 */
+    color: white !important; /* 白色文字 */
+  }
+  
+  .del{
+    color: red !important;
+  }
+  .preview-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
