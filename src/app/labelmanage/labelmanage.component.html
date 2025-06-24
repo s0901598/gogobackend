@@ -17,10 +17,11 @@
 <nz-modal [(nzVisible)]="showModal" nzTitle="新增標籤" [nzFooter]="modalFooter" (nzOnCancel)="showModal = false">
   <ng-container *nzModalContent>
     <div>
-      <input nz-input placeholder="請輸入內容" nzSize="default" />
+      <input nz-input [(ngModel)]="newLabelName" placeholder="請輸入內容" nzSize="default" />
     </div>
   </ng-container>
   <ng-template #modalFooter>
-    <button nz-button nzType="primary" (click)="showModal = false">建立</button>
+    <button nz-button nzType="primary" (click)="showModal = false">取消</button>
+    <button nz-button nzType="primary" (click)="create()">建立</button>
   </ng-template>
 </nz-modal>

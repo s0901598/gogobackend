@@ -192,8 +192,6 @@ export class ProductlistComponent {
    this.clickbtn = btn;
    this.showModal();
  }
-
-
  updateCheckedSet(id: number, checked: boolean): void {
    if (checked) {
      this.setOfCheckedId.add(id);
