@@ -24,7 +24,8 @@
       <td>{{ user.account }}</td> <!-- 如果 API 返回 email，可以替換此處 -->
       <td>{{ user.gender ? '男' : '女' }}</td>
       <td>{{ user.createtime | date: 'yyyy-MM-dd hh:mm:ss' }}</td>
-      <td>{{ user.isdelete ? '是' : '否' }}</td>
+      <nz-switch [(ngModel)]="user.isdelete" [nzCheckedChildren]="'是'" [nzUnCheckedChildren]="'否'"></nz-switch>
+      
     </tr>
   </tbody>
 </nz-table>
