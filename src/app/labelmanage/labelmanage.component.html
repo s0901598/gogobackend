@@ -3,13 +3,37 @@
   <thead>
     <tr>
       <th>標籤ID</th>
-      <th>標籤ID名稱</th>
+      <th>標籤名稱</th>
+      <th>操作</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let label of basicTable.data;">
       <td>{{label.labelid}}</td>
       <td>{{label.specificname}}</td>
+      <div>
+         <td>
+          
+          <button nz-button nzType="primary" (click)="editlabel()">編輯</button>
+        </td>
+      
+      <td>
+        <a
+        style="color: red;"
+      nz-popconfirm
+      nzPopconfirmTitle="確定要刪除嗎"
+      nzOkText="確定"
+      nzCancelText="取消"
+      (nzOnConfirm)="confirm(label.labelid)"
+      (nzOnCancel)="cancel()"
+    >
+        刪除
+      
+        </a>
+      </td>
+      </div>
+     
+      
     </tr>
   </tbody>
 </nz-table>
@@ -17,11 +41,17 @@
 <nz-modal [(nzVisible)]="showModal" nzTitle="新增標籤" [nzFooter]="modalFooter" (nzOnCancel)="showModal = false">
   <ng-container *nzModalContent>
     <div>
-      <input nz-input [(ngModel)]="newLabelName" placeholder="請輸入內容" nzSize="default" />
+      <div>
+        輸入標籤名稱：
+        <input nz-input [(ngModel)]="newLabelName" placeholder="請輸入內容" nzSize="default" />
+      </div>
+      
     </div>
   </ng-container>
   <ng-template #modalFooter>
     <button nz-button nzType="primary" (click)="showModal = false">取消</button>
+    
+
     <button nz-button nzType="primary" (click)="create()">建立</button>
   </ng-template>
 </nz-modal>

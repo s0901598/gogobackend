@@ -32,6 +32,10 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LabelmanageComponent } from './labelmanage/labelmanage.component';
 import { ProductlistComponent } from './productlist/productlist.component';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+
 
 
 registerLocaleData(zh);
@@ -68,7 +72,10 @@ registerLocaleData(zh);
     NzSelectModule,
     NzInputModule,
     NzListModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NzDropDownModule,
+    NzPopconfirmModule,
+    
    
 
   ],
