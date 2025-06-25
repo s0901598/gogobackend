@@ -25,16 +25,18 @@ export interface Data {
   styleUrl: './productlist.component.css'
 })
 
+
+
 export class ProductlistComponent {
   readonly presetColors = ['red', 'blue', 'green', 'yellow', 'purple','orange','brown']; // 可選標籤的顏色
 
     // 定義商品名稱列表
     productNameList: NzSelectOptionInterface[] = [
-      { label: '精緻豪華四人房', value: '4 people ' },
-      { label: '蜜月雙人房', value: 'couple room' },
-      { label: '家庭三人房', value: '3 people ' },
-      { label: '樓中樓四人房', value: '4 people' },
-      { label: '黃金單身房', value: '1 person' },
+      { label: '精緻豪華四人房', value: '精緻豪華四人房' },
+      { label: '蜜月雙人房', value: '蜜月雙人房' },
+      { label: '家庭三人房', value: '家庭三人房 ' },
+      { label: '樓中樓四人房', value: '樓中樓四人房' },
+      { label: '黃金單身房', value: '黃金單身房' },
     ];
      // 定義標籤和圖標的映射
   availableLabels: { text: string; icon: string }[] = [
@@ -45,7 +47,6 @@ export class ProductlistComponent {
     {text:'1 King +2 Queen',icon: 'fa-bed'},
     {text:'Free Newspaper',icon:'fa-newspaper'},
     {text:'Indoor corridor',icon:'fa-door-open'},
-
   ];
   selectedLabels: string[] = []; // 當前選中的標籤
     checked = false;
@@ -79,7 +80,6 @@ export class ProductlistComponent {
   form: FormGroup;
 
   constructor(private http:HttpService,  private modal: NzModalService,private fb:FormBuilder,private message:NzMessageService,private router: Router) {
-
     this.http.get('getlabel/').subscribe((x:any)=>{
      this.availableLabels = x.labels.map((y:any,index:number)=> {
        return {text:y.specificname,icon:this.availableLabels[index].icon}
@@ -94,7 +94,6 @@ export class ProductlistComponent {
      labels:[[]],//儲存選中的標籤
    });
  }
-
  ngOnInit(): void {
    console.log('進入')
    // 從 localStorage 讀取數據

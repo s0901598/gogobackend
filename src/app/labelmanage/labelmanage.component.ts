@@ -11,6 +11,7 @@ export class LabelmanageComponent {
     labels:any[] = []
     newLabelName='';
     showModal = false;
+    labelid=0
    
     constructor(private http:HttpService) {
     //    this.http.get('getlabel/').subscribe((x:any)=>{
@@ -36,9 +37,10 @@ export class LabelmanageComponent {
         return;
       }
   
-      const newLabel = { specificname: this.newLabelName };
+      const newLabel = {labelid:this.labelid ,specificname: this.newLabelName };
       this.http.post('addlabel/', newLabel).subscribe(
         (response: any) => {
+          console.log(response)
           // 成功後加入本地列表並重新載入
           this.labels.push({ labelid: response.labelid, specificname: this.newLabelName });
           this.loadLabels(); // 確保與後端同步
