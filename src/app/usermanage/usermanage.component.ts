@@ -43,9 +43,13 @@ export class UsermanageComponent {
     })
   }
   reset(){
-    this.http.post('getusers/',this.searchdata).subscribe((x:any)=>{
-      this.users = x.users;
-    })
+    this.searchdata = {
+      username: '',
+      phonenumber: '',
+      isdelete: null
+    };
+    this.displayStatus = '全部';
+    this.getuserfile()
 
   }
   // 選擇用戶狀態
