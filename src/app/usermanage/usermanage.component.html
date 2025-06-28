@@ -1,3 +1,37 @@
+<div class="serchblock">
+  <div class="serchbar">
+    <div>
+      用戶名稱:
+      <input nz-input placeholder="請輸入用戶名稱" nzSize="default" [(ngModel)]="searchdata.username" />
+    </div>
+    <div>
+      電話:
+      <input nz-input placeholder="請輸入電話" nzSize="default" [(ngModel)]="searchdata.phonenumber" />
+    </div>
+    <div>
+      用戶狀態:
+      <button nz-button nz-dropdown [nzDropdownMenu]="menu" [(ngModel)]="searchdata.isdelete">
+        {{displayStatus}}
+        <nz-icon nzType="down" />
+      </button>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item (click)="selectStatus(null)">全部</li>
+          <li nz-menu-item (click)="selectStatus(true)">封禁</li>
+          <li nz-menu-item (click)="selectStatus(false)">未封禁</li>
+        </ul>
+      </nz-dropdown-menu>
+    </div>
+
+  </div>
+  <div class="serchbtn">
+    <button nz-button nzType="default" (click)="reset()">重置</button>
+    <button nz-button nzType="primary" (click)="getuserfile()">查詢</button>
+  </div>
+
+
+</div>
+
 <nz-table #basicTable [nzData]="users">
   <thead>
     <tr>
@@ -24,8 +58,11 @@
       <td>{{ user.account }}</td> <!-- 如果 API 返回 email，可以替換此處 -->
       <td>{{ user.gender ? '男' : '女' }}</td>
       <td>{{ user.createtime | date: 'yyyy-MM-dd hh:mm:ss' }}</td>
-      <nz-switch [(ngModel)]="user.isdelete" [nzCheckedChildren]="'是'" [nzUnCheckedChildren]="'否'"></nz-switch>
-      
+      <td>
+        <nz-switch (ngModelChange)="changestus(user)" [(ngModel)]="user.isdelete" [nzCheckedChildren]="'是'"
+          [nzUnCheckedChildren]="'否'"></nz-switch>
+      </td>
+
     </tr>
   </tbody>
 </nz-table>

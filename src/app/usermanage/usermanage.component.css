@@ -1,0 +1,12 @@
+.serchblock{
+  display: flex;
+  width: 100%;
+}
+.serchbar{
+  display: flex;
+  width: 80%;
+}
+input{
+  width: 77%;
+}
+
