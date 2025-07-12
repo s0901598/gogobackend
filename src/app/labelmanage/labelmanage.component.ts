@@ -21,7 +21,7 @@ export class LabelmanageComponent {
     {icon:'fa-door-open'},
   ];
 
-    
+
     labels:any[] = []
     newLabelName='';
     showModal = false;
@@ -29,12 +29,12 @@ export class LabelmanageComponent {
     selectedIcon: string | null = null;
     listOfOption: string[] = [];
     readonly nzFilterOption = (): boolean => true;
- 
-  
+
+
     @ViewChild('editTemplate', { static: false }) editTemplate!: TemplateRef<any>; // 引用編輯模板
-   
+
     constructor(private http:HttpService,private message:NzMessageService,private nzMessageService: NzMessageService,private modal: NzModalService ) {
-       this.http.get('getlabel/').subscribe((x:any)=>{
+       this.http.get('label/getlabel/').subscribe((x:any)=>{
         this.listOfOption = x.labels.map((y:any,index:number)=> {
           return {icon:this.availabletags[index]?.icon}
         });
@@ -45,7 +45,7 @@ export class LabelmanageComponent {
 
     // 載入標籤列表
     loadLabels() {
-    this.http.get('getlabel/').subscribe((x: any) => {
+    this.http.get('label/getlabel/').subscribe((x: any) => {
       this.labels = x.labels;
       console.log(this.labels)
     });
@@ -58,7 +58,7 @@ export class LabelmanageComponent {
     createMessage(type: string,string:string): void {
       this.message.create(type, string);
     }
-   
+
 
     create(){
       if (!this.newLabelName.trim()) {
@@ -67,7 +67,7 @@ export class LabelmanageComponent {
       }
 
       const newLabel = {labelid:this.labelid ,specificname: this.newLabelName,icon: this.selectedIcon || 'fa-tag' };
-      this.http.post('addlabel/', newLabel).subscribe(
+      this.http.post('label/addlabel/', newLabel).subscribe(
         (response: any) => {
           console.log(response)
           // 成功後加入本地列表並重新載入
@@ -83,7 +83,7 @@ export class LabelmanageComponent {
       );
     }
     editlabel(){
-      
+
     }
 
 
@@ -98,9 +98,9 @@ export class LabelmanageComponent {
     }
    // 刪除標籤
   deleteLabel(labelid:number) {
-    
+
     console.log(labelid)
-      this.http.delete(`deletelabel/${labelid}/`).subscribe(
+      this.http.delete(`label/deletelabel/${labelid}/`).subscribe(
         (response: any) => {
           console.log('刪除成功', response.labelid);
           // 從本地列表中移除該標籤
@@ -114,7 +114,7 @@ export class LabelmanageComponent {
       );
     }}
 
-    
 
-   
-  
+
+
+

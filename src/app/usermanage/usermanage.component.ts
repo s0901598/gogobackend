@@ -20,7 +20,7 @@ export class UsermanageComponent {
   loading = false;
   users:any[] = []
   constructor(private http:HttpService){
-    this.http.post('getusers/',this.searchdata).subscribe((x:any)=>{
+    this.http.post('user/getusers/',this.searchdata).subscribe((x:any)=>{
       this.users = x.users;
     })
   }
@@ -32,13 +32,13 @@ export class UsermanageComponent {
       "memberid": user.memberid,
       "isdelete": user.isdelete
     }
-    this.http.put('updateuserstatus/',data).subscribe((x:any)=>{
+    this.http.put('user/updateuserstatus/',data).subscribe((x:any)=>{
 
     })
     console.log(user)
 }
   getuserfile(){
-    this.http.post('getusers/',this.searchdata).subscribe((x:any)=>{
+    this.http.post('user/getusers/',this.searchdata).subscribe((x:any)=>{
       this.users = x.users;
     })
   }

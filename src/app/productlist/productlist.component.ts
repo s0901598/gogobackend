@@ -63,7 +63,7 @@ export class ProductlistComponent {
     {icon:'gift'},
     {icon:'print'},
 
-  
+
 
 
   ];
@@ -100,7 +100,7 @@ export class ProductlistComponent {
   form: FormGroup;
 
   constructor(private http:HttpService,  private modal: NzModalService,private fb:FormBuilder,private message:NzMessageService,private router: Router) {
-    this.http.get('getlabel/').subscribe((x:any)=>{
+    this.http.get('label/getlabel/').subscribe((x:any)=>{
      this.availableLabels = x.labels.map((y:any,index:number)=> {
        return {text:y.specificname,icon:this.availabletags[index]?.icon}
      });
