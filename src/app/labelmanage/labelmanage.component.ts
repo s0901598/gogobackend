@@ -10,6 +10,10 @@ import { NzModalService } from 'ng-zorro-antd/modal';
   styleUrl: './labelmanage.component.css'
 })
 export class LabelmanageComponent {
+inputValue: string = ''; // 修正為字串，匹配 JSON 數據
+  options: string[] = []; // 原始 JSON 數據
+  filteredOptions: string[] = []; // 過濾後的選項
+
   [x: string]: any;
   availabletags: {icon: string }[] = [
     { icon: 'fa-bed' },
@@ -20,13 +24,10 @@ export class LabelmanageComponent {
     {icon:'fa-newspaper'},
     {icon:'fa-door-open'},
   ];
-
-
     labels:any[] = []
     newLabelName='';
     showModal = false;
     labelid=0
-    selectedIcon: string | null = null;
     listOfOption: string[] = [];
     readonly nzFilterOption = (): boolean => true;
 
@@ -34,6 +35,11 @@ export class LabelmanageComponent {
     @ViewChild('editTemplate', { static: false }) editTemplate!: TemplateRef<any>; // 引用編輯模板
 
     constructor(private http:HttpService,private message:NzMessageService,private nzMessageService: NzMessageService,private modal: NzModalService ) {
+
+      this.http.origin_get<any>('assets/icons.json').subscribe(x=>{
+        this.options=x
+      })
+
        this.http.get('label/getlabel/').subscribe((x:any)=>{
         this.listOfOption = x.labels.map((y:any,index:number)=> {
           return {icon:this.availabletags[index]?.icon}
@@ -42,6 +48,8 @@ export class LabelmanageComponent {
 
     this.loadLabels()//載入初始標籤列表
     }
+
+
 
     // 載入標籤列表
     loadLabels() {
@@ -53,7 +61,6 @@ export class LabelmanageComponent {
     openModal(){
       this.showModal = true;
       this.newLabelName = ''; // 清空輸入
-      this.selectedIcon = null; // 清空選中的圖標
     }
     createMessage(type: string,string:string): void {
       this.message.create(type, string);
@@ -66,12 +73,12 @@ export class LabelmanageComponent {
         return;
       }
 
-      const newLabel = {labelid:this.labelid ,specificname: this.newLabelName,icon: this.selectedIcon || 'fa-tag' };
+      const newLabel = {labelid:this.labelid ,specificname: this.newLabelName,iconname: this.inputValue};
       this.http.post('label/addlabel/', newLabel).subscribe(
         (response: any) => {
           console.log(response)
           // 成功後加入本地列表並重新載入
-          this.labels.push({ labelid: response.labelid, specificname: this.newLabelName,icon: this.selectedIcon || 'fa-tag'  });
+          this.labels.push({ labelid: response.labelid, specificname: this.newLabelName,iconname: this.inputValue});
           this.loadLabels(); // 確保與後端同步
           this.showModal=false; // 關閉彈窗
           this.createMessage('success','新增成功')
@@ -112,7 +119,25 @@ export class LabelmanageComponent {
           this.createMessage('error','標籤刪除失敗，請稍後再試！');
         }
       );
-    }}
+    }
+  // 輸入時過濾選項
+  onInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.filteredOptions = this.options.filter(option =>
+      option.toLowerCase().includes(value.toLowerCase())
+    );
+  }
+
+  // 修正 compareFun 以適配字串
+  compareFun = (o1: string, o2: string): boolean => {
+    return o1 === o2;
+  };
+
+
+
+  }
+
+
 
 
 

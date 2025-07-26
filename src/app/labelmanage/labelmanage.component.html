@@ -10,7 +10,8 @@
   <tbody>
     <tr *ngFor="let label of basicTable.data;">
       <td>{{label.labelid}}</td>
-      <td>{{label.specificname}}</td>
+      <td> <i [class]="label.iconname"></i>
+        {{label.specificname}}</td>
 
       <td>
         <button nz-button nzType="text" (click)="editlabel()" style="color: blue;">編輯</button>
@@ -20,10 +21,23 @@
     </tr>
   </tbody>
 </nz-table>
-
+<!-- 新增標籤談窗 -->
 <nz-modal [(nzVisible)]="showModal" nzTitle="新增標籤" [nzFooter]="modalFooter" (nzOnCancel)="showModal = false">
   <ng-container *nzModalContent>
     <div>
+      請選擇標籤:
+      <div class="example-input">
+        <input placeholder="input here" nz-input [(ngModel)]="inputValue" [nzAutocomplete]="auto"
+          (input)="onInput($event)" />
+        <nz-autocomplete #auto [compareWith]="compareFun">
+          @for (option of filteredOptions; track $index) {
+          <nz-auto-option [nzValue]="option" [nzLabel]="option">
+            <i [class]="option"></i>
+            {{ option }}
+          </nz-auto-option>
+          }
+        </nz-autocomplete>
+      </div>
       <div>
         輸入標籤名稱：
         <input nz-input [(ngModel)]="newLabelName" placeholder="請輸入內容" nzSize="default" />

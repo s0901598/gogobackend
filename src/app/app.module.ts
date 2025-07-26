@@ -35,6 +35,8 @@ import { ProductlistComponent } from './productlist/productlist.component';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+
 
 
 
@@ -49,7 +51,7 @@ registerLocaleData(zh);
     UsermanageComponent,
     LabelmanageComponent,
     ProductlistComponent,
-    
+
   ],
   imports: [
     BrowserModule,
@@ -75,8 +77,9 @@ registerLocaleData(zh);
     BrowserAnimationsModule,
     NzDropDownModule,
     NzPopconfirmModule,
-    
-   
+    NzAutocompleteModule
+
+
 
   ],
   providers: [

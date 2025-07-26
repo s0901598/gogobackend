@@ -49,19 +49,6 @@ export class ProductlistComponent {
     {text:'Indoor corridor',icon:'fa-door-open'},
   ];
   availabletags: {icon: string }[] = [
-    { icon: 'fa-bed' },
-    {icon:'fa-shower'},
-    {icon: 'fa-smoking' },
-    {icon:'fa-bottle-water'},
-    { icon: 'fa-tv' },
-    {icon: 'fa-wifi' },
-    {icon:'fa-newspaper'},
-    {icon:'fa-door-open'},
-    {icon:'fa-bell'},
-    {icon:'fa-phone'},
-    {icon:'truck-fast'},
-    {icon:'gift'},
-    {icon:'print'},
 
 
 
@@ -102,7 +89,7 @@ export class ProductlistComponent {
   constructor(private http:HttpService,  private modal: NzModalService,private fb:FormBuilder,private message:NzMessageService,private router: Router) {
     this.http.get('label/getlabel/').subscribe((x:any)=>{
      this.availableLabels = x.labels.map((y:any,index:number)=> {
-       return {text:y.specificname,icon:this.availabletags[index]?.icon}
+       return {text:y.specificname,icon:y.iconname}
      });
    })
 

@@ -11,6 +11,15 @@ export class HttpService {
   constructor(private http:HttpClient) { }
 
   // GET 請求
+  origin_get<T>(endpoint: string, params?: { [key: string]: any }): Observable<T> {
+    const httpOptions = this.buildHttpOptions(params);
+    return this.http.get<T>(`${endpoint}`, httpOptions).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+
+  // GET 請求
   get<T>(endpoint: string, params?: { [key: string]: any }): Observable<T> {
     const httpOptions = this.buildHttpOptions(params);
     return this.http.get<T>(`${environment.apiUrl}/${endpoint}`, httpOptions).pipe(
