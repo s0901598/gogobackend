@@ -1,6 +1,7 @@
 .serchblock{
   display: flex;
   width: 100%;
+  padding-bottom: 20px;
 }
 .serchbar{
   display: flex;
@@ -9,4 +10,16 @@
 input{
   width: 77%;
 }
-
+.username{
+  display: flex;
+  align-items: center;
+}
+.serchbtn>button{
+margin-right: 20px;
+}
+.serchbar>div{
+  width: 33%;
+}
+input{
+  padding-left: 5px;
+}

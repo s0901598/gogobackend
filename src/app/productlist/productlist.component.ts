@@ -12,6 +12,7 @@ export interface Data {
   id: number;
   pdname: string;
   pdprice: number;
+  pdstatement:string;
   picurl:string[];
   disabled:boolean;
   switchstatus: boolean;
@@ -97,6 +98,7 @@ export class ProductlistComponent {
    this.form = this.fb.group({
      name: ['', Validators.required],
      price: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+     pdstatement:['', Validators.required],
      switchstatus: [false],
      labels:[[]],//儲存選中的標籤
    });
@@ -119,6 +121,7 @@ export class ProductlistComponent {
        id: index+1,
        pdname: `Edward King ${index}`,
        pdprice: 80,
+       pdstatement:"",
        picurl: [`London, Park Lane no. ${index}`],
        disabled: false,
        switchstatus: false,
@@ -170,6 +173,7 @@ export class ProductlistComponent {
            id: newId,
            pdname: productName,
            pdprice: this.form.get('price')?.value,
+          pdstatement: this.form.get('pdstatement')?.value,
            picurl: this.fileList.map(file => file.url || file.thumbUrl || 'default-pic-url'), // 存儲多張圖片 URL,
            disabled: false,
            switchstatus: this.form.get('switchstatus')?.value??false,// 確保有值
@@ -333,18 +337,19 @@ export class ProductlistComponent {
    fileList = fileList.slice(0, 5);
    this.message.warning('最多只能上傳5張圖片');
  }
-   fileList = fileList.map(file => {
-     if (file.status === 'done' && file.response) {
-       file.url = file.response.url;
-     } else if (file.status === 'uploading') {
-       // 模擬上傳成功
-       setTimeout(() => {
-         file.status = 'done';
-         file.url = URL.createObjectURL(file.originFileObj!); // 生成臨時 URL
-       }, 1000);
-     }
-     return file;
-   });
+ console.log(fileList[0])
+  //  fileList = fileList.map(file => {
+  //    if (file.status === 'done' && file.response) {
+  //      file.url = file.response.url;
+  //    } else if (file.status === 'uploading') {
+  //      // 模擬上傳成功
+  //      setTimeout(() => {
+  //        file.status = 'done';
+  //        file.url = URL.createObjectURL(file.originFileObj!); // 生成臨時 URL
+  //      }, 1000);
+  //    }
+  //    return file;
+  //  });
    this.fileList = fileList;
  }
 
@@ -414,6 +419,7 @@ export class ProductlistComponent {
    this.form.patchValue({
      name: item.pdname,
      price: item.pdprice.toString(),
+     pdstatement:item.pdstatement.toString(),
      switchstatus: item.switchstatus,
      labels: item.labels,
    });
@@ -441,6 +447,7 @@ export class ProductlistComponent {
            id: item.id,
            pdname: productName,
            pdprice: this.form.get('price')?.value,
+           pdstatement:this.form.get('pdstatement')?.value,
            picurl: this.fileList.map(file => file.url || file.thumbUrl || 'default-pic-url'),
            disabled: false,
            switchstatus: this.form.get('switchstatus')?.value??false,//確保有值
